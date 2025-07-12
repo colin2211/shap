@@ -704,12 +704,13 @@ class KernelExplainer(Explainer):
         # Under the hood, as of scikit-learn version 1.3, LinearRegression still uses np.linalg.lstsq and
         # there are more performant options. See https://github.com/scikit-learn/scikit-learn/issues/22855.
         y = np.asarray(eyAdj2)
+        y_ = np.array(y, dtype=float)
         X = etmp
         WX = self.kernelWeights[:, None] * X
         try:
             log.debug(f" y is {y} ")
-            log.debug(f" y is {y.dtype} ")
-            w = np.linalg.solve(X.T @ WX, WX.T @ y)
+            log.debug(f" y is {y_.dtype} ")
+            w = np.linalg.solve(X.T @ WX, WX.T @ y_)
         except np.linalg.LinAlgError:
             warnings.warn(
                 "Linear regression equation is singular, a least squares solutions is used instead.\n"
