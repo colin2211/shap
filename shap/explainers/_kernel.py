@@ -651,7 +651,8 @@ class KernelExplainer(Explainer):
             w_sqrt_aug = np.sqrt(w_aug)
             eyAdj_aug = np.hstack((eyAdj, eyAdj - (self.link.f(self.fx[dim]) - self.link.f(self.fnull[dim]))))
             eyAdj_aug *= w_sqrt_aug
-            log.debug(eyAdj_aug)
+            log.debug(f" eye is {eyAdj_aug} ")
+            log.debug(f" eye is {eyAdj_aug.dtype} ")
             
             mask_aug = np.transpose(w_sqrt_aug * np.transpose(np.vstack((self.maskMatrix, self.maskMatrix - 1))))
             # var_norms = np.array([np.linalg.norm(mask_aug[:, i]) for i in range(mask_aug.shape[1])])
@@ -706,7 +707,8 @@ class KernelExplainer(Explainer):
         X = etmp
         WX = self.kernelWeights[:, None] * X
         try:
-            log.debug(y)
+            log.debug(f" y is {y} ")
+            log.debug(f" y is {y.dtype} ")
             w = np.linalg.solve(X.T @ WX, WX.T @ y)
         except np.linalg.LinAlgError:
             warnings.warn(
