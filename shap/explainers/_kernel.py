@@ -482,7 +482,7 @@ class KernelExplainer(Explainer):
             phi = np.zeros((self.data.groups_size, self.D))
             phi_var = np.zeros((self.data.groups_size, self.D))
             for d in range(self.D):
-                breakpoint()
+                
                 vphi, vphi_var = self.solve(self.nsamples / self.max_samples, d)
                 phi[self.varyingInds, d] = vphi
                 phi_var[self.varyingInds, d] = vphi_var
@@ -651,8 +651,8 @@ class KernelExplainer(Explainer):
             w_sqrt_aug = np.sqrt(w_aug)
             eyAdj_aug = np.hstack((eyAdj, eyAdj - (self.link.f(self.fx[dim]) - self.link.f(self.fnull[dim]))))
             eyAdj_aug *= w_sqrt_aug
-            logging.warning(eyAdj_aug)
-            logging.warning(eyAdj_aug.dtype)
+            log.debug(eyAdj_aug)
+            
             mask_aug = np.transpose(w_sqrt_aug * np.transpose(np.vstack((self.maskMatrix, self.maskMatrix - 1))))
             # var_norms = np.array([np.linalg.norm(mask_aug[:, i]) for i in range(mask_aug.shape[1])])
 
@@ -706,6 +706,7 @@ class KernelExplainer(Explainer):
         X = etmp
         WX = self.kernelWeights[:, None] * X
         try:
+            log.debug(y)
             w = np.linalg.solve(X.T @ WX, WX.T @ y)
         except np.linalg.LinAlgError:
             warnings.warn(
