@@ -650,6 +650,8 @@ class KernelExplainer(Explainer):
             w_sqrt_aug = np.sqrt(w_aug)
             eyAdj_aug = np.hstack((eyAdj, eyAdj - (self.link.f(self.fx[dim]) - self.link.f(self.fnull[dim]))))
             eyAdj_aug *= w_sqrt_aug
+            logging.warning(eyAdj_aug)
+            logging.warning(eyAdj_aug.dtype)
             mask_aug = np.transpose(w_sqrt_aug * np.transpose(np.vstack((self.maskMatrix, self.maskMatrix - 1))))
             # var_norms = np.array([np.linalg.norm(mask_aug[:, i]) for i in range(mask_aug.shape[1])])
 
