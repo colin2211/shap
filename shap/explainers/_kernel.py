@@ -482,6 +482,7 @@ class KernelExplainer(Explainer):
             phi = np.zeros((self.data.groups_size, self.D))
             phi_var = np.zeros((self.data.groups_size, self.D))
             for d in range(self.D):
+                breakpoint()
                 vphi, vphi_var = self.solve(self.nsamples / self.max_samples, d)
                 phi[self.varyingInds, d] = vphi
                 phi_var[self.varyingInds, d] = vphi_var
